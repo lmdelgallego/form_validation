@@ -9,6 +9,7 @@ class LoginPage extends StatelessWidget {
       body: Stack(
         children: [
           _crearFondo(context),
+          _loginForm(context),
         ],
       ),
     );
@@ -62,6 +63,91 @@ class LoginPage extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+
+  Widget _loginForm(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SafeArea(
+            child: Container(
+              height: 180,
+            ),
+          ),
+          Container(
+            width: size.width * 0.85,
+            margin: EdgeInsets.symmetric(vertical: 30),
+            padding: EdgeInsets.symmetric(vertical: 50),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 3.0,
+                    offset: Offset(0.0, 5),
+                    spreadRadius: 3.0,
+                  )
+                ]),
+            child: Column(
+              children: [
+                Text('Ingreso', style: TextStyle(fontSize: 20)),
+                SizedBox(height: 20),
+                _crearEmail(),
+                SizedBox(height: 30),
+                _crearPassword(),
+                SizedBox(height: 30),
+                _crearBoton(),
+              ],
+            ),
+          ),
+          Text('Forgot password?'),
+          SizedBox(height: 100)
+        ],
+      ),
+    );
+  }
+
+  Widget _crearEmail() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: TextField(
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+          icon: Icon(Icons.alternate_email, color: Colors.deepPurple),
+          hintText: 'ejemplo@correo.com',
+          labelText: 'E-mail',
+        ),
+      ),
+    );
+  }
+
+  Widget _crearPassword() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: TextField(
+        obscureText: true,
+        decoration: InputDecoration(
+          icon: Icon(Icons.lock, color: Colors.deepPurple),
+          labelText: 'Password',
+        ),
+      ),
+    );
+  }
+
+  Widget _crearBoton() {
+    return RaisedButton(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 20),
+        child: Text('Ingresar'),
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      elevation: 0,
+      color: Colors.deepPurple,
+      textColor: Colors.white,
+      onPressed: () {},
     );
   }
 }
