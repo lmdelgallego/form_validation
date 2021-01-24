@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
           'home': (BuildContext context) => HomePage(),
         },
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.deepPurple,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
       ),
