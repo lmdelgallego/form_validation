@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:form_validation/src/bloc/provider.dart';
+import 'package:form_validation/src/models/producto.dart';
+import 'package:form_validation/src/providers/productos_providers.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+  final productosProvider = new ProductosProvider();
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('HOME'),
       ),
-      body: Container(),
+      body: _crearListado(context),
       floatingActionButton: _crearBoton(context),
     );
   }
@@ -19,6 +22,20 @@ class HomePage extends StatelessWidget {
     return FloatingActionButton(
       child: Icon(Icons.add),
       onPressed: () => Navigator.pushNamed(context, 'producto'),
+    );
+  }
+
+  _crearListado(BuildContext context) {
+    return FutureBuilder(
+      future: productosProvider.cargarProductos(),
+      builder:
+          (BuildContext context, AsyncSnapshot<List<ProductoModel>> snapshot) {
+        if (snapshot.hasData) {
+          return Container();
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 }
