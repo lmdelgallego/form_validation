@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:form_validation/src/models/producto.dart';
 import 'package:form_validation/src/providers/productos_providers.dart';
 import 'package:form_validation/src/utils/utils.dart' as utils;
+
+import 'package:image_picker/image_picker.dart';
 
 class ProductoPage extends StatefulWidget {
   @override
@@ -14,6 +18,7 @@ class _ProductoPageState extends State<ProductoPage> {
   final productoProvider = new ProductosProvider();
   ProductoModel producto = new ProductoModel();
   bool _guardando = false;
+  File foto;
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +34,11 @@ class _ProductoPageState extends State<ProductoPage> {
         actions: [
           IconButton(
             icon: Icon(Icons.photo_size_select_actual),
-            onPressed: () {},
+            onPressed: () => _seleccionarFoto(ImageSource.gallery),
           ),
           IconButton(
             icon: Icon(Icons.camera_alt),
-            onPressed: () {},
+            onPressed: () => _seleccionarFoto(ImageSource.camera),
           ),
         ],
       ),
@@ -44,6 +49,7 @@ class _ProductoPageState extends State<ProductoPage> {
             key: formKey,
             child: Column(
               children: [
+                _mostrarFoto(),
                 _crearNombre(),
                 _crearPrecio(),
                 _crearDisponible(),
@@ -55,6 +61,37 @@ class _ProductoPageState extends State<ProductoPage> {
         ),
       ),
     );
+  }
+
+  Widget _mostrarFoto() {
+    if (producto.fotoUrl != null) {
+      return Container();
+    } else {
+      if (foto != null) {
+        return Image.file(
+          foto,
+          fit: BoxFit.cover,
+          height: 300.0,
+        );
+      }
+      return Image.asset('assets/no-image.png');
+    }
+  }
+
+  void _seleccionarFoto(ImageSource origin) async {
+    final _picker = ImagePicker();
+
+    final pickedFile = await _picker.getImage(
+      source: origin,
+    );
+
+    foto = pickedFile != null ? File(pickedFile.path) : null;
+
+    if (foto != null) {
+      producto.fotoUrl = null;
+    }
+
+    setState(() {});
   }
 
   Widget _crearNombre() {
