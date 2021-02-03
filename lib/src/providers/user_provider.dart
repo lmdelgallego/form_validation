@@ -1,0 +1,30 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
+class UserProvider {
+  final String _fbToken = "AIzaSyArFtSOsqmL0k31tCgy47dPKtffXTasr1o";
+
+  Future nuevoUsuario(String email, String password) async {
+    final authData = {
+      'email': email,
+      'password': password,
+      'returnSecureToken': true
+    };
+
+    final resp = await http.post(
+      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=$_fbToken',
+      body: json.encode(authData),
+    );
+
+    Map<String, dynamic> decodedResp = json.decode(resp.body);
+    print(decodedResp);
+
+    if (decodedResp.containsKey('idToken')) {
+      // TODO: Guardar el token
+      return {'ok': true, 'token': decodedResp['idToken']};
+    } else {
+      return {'ok': false, 'token': decodedResp['error']['message']};
+    }
+  }
+}
