@@ -40,7 +40,7 @@ class UserProvider {
       _prefs.token = decodedResp['idToken'];
       return {'ok': true, 'token': decodedResp['idToken']};
     } else {
-      return {'ok': false, 'token': decodedResp['error']['message']};
+      return {'ok': false, 'message': decodedResp['error']['message']};
     }
   }
 }

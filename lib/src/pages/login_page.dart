@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_validation/src/bloc/provider.dart';
 import 'package:form_validation/src/providers/user_provider.dart';
+import 'package:form_validation/src/utils/utils.dart';
 
 class LoginPage extends StatelessWidget {
   final _userProvider = new UserProvider();
@@ -178,8 +179,12 @@ class LoginPage extends StatelessWidget {
         });
   }
 
-  _login(BuildContext context, LoginBloc bloc) {
-    _userProvider.login(bloc.email, bloc.password);
-    // Navigator.pushReplacementNamed(context, 'home');
+  _login(BuildContext context, LoginBloc bloc) async {
+    Map info = await _userProvider.login(bloc.email, bloc.password);
+    if (info['ok']) {
+      Navigator.pushReplacementNamed(context, 'home');
+    } else {
+      mostrarAlerta(context, info['message']);
+    }
   }
 }
