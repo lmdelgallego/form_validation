@@ -19,20 +19,20 @@ class ProductosBloc {
     _productosCotroller.sink.add(productos);
   }
 
-  void agregarProductos(ProductoModel producto) async {
+  void crearProducto(ProductoModel producto) async {
     _cargandoCotroller.sink.add(true);
     await _productosProvider.crearProducto(producto);
     _cargandoCotroller.sink.add(false);
   }
 
-  Future<String> subirFoto(File foto) async {
+  Future<String> subirImagen(File foto) async {
     _cargandoCotroller.sink.add(true);
     final fotoUrl = await _productosProvider.subirImagen(foto);
     _cargandoCotroller.sink.add(false);
     return fotoUrl;
   }
 
-  void editarProductos(ProductoModel producto) async {
+  void editarProducto(ProductoModel producto) async {
     _cargandoCotroller.sink.add(true);
     await _productosProvider.editarProducto(producto);
     _cargandoCotroller.sink.add(false);
